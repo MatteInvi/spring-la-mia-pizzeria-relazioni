@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head :: head('Home')">
+
+<body>
+    <section th:insert="fragments/navbar :: navbar"></section>
+
+    <main class="container">
+        <div class="col-12 mt-3 p-2 bg-warning-subtle">
+            <form th:action="@{/pizze/offerte/create}" method="POST" th:object="${offerta}" id="offerta-creation-form">
+                <label for="titolo" class="form-label">Titolo:</label>
+                <input th:errorClass="is-invalid" th:field="*{titolo}" type="text" class="form-control" id="titolo">
+                <div th:if="${#fields.hasErrors('titolo')}" class="invalid-feedback">
+                    <ul>
+
+                        <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>
+
+                    </ul>
+
+                </div>
+                <label for="dataInizio" class="form-label">Data inizio:</label>
+                <input type="date" class="form-control" id="dataInizio" th:field="*{dataInizio}">
+
+                <label for="dataFine" class="form-label">Data fine:</label>
+                <input type="date" class="form-control" id="dataFine" th:field="*{dataFine}">
+              
+                <button type="submit" class="btn btn-primary mt-2">Crea</button>
+            </form>
+        </div>
+
+    </main>
+</body>
+
+<!-- Script fragment -->
+<section th:insert="~{fragments/script :: script}"></section>
+
+</html>
