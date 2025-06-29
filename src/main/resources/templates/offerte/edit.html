@@ -8,7 +8,7 @@
 
     <main class="container">
         <div class="col-12 mt-3 p-2 bg-warning-subtle">
-            <h1> Creazione offerta per pizza: [[${offerta.pizza.nome}]]</h1>
+            <h1> Modifica offerta: [[${offerta.titolo}]]</h1>
 
 
             <div class="col-12 text-center">
@@ -18,7 +18,7 @@
                 </ul>
             </div>
             <div class="col-12">
-                <form th:action="@{/offerte}" method="POST" th:object="${offerta}" id="offerta-creation-form">
+                <form th:action="@{/offerte/{id}/edit(id=${offerta.id})}" method="POST" th:object="${offerta}" id="offerta-creation-form">
 
                     <input type="hidden" th:field="*{pizza}" id="pizza-id">
 
@@ -56,7 +56,7 @@
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-2">Crea</button>
+                    <button type="submit" class="btn btn-primary mt-2">Modifica</button>
                 </form>
             </div>
 

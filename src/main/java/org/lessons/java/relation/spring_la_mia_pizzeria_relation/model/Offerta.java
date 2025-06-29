@@ -1,7 +1,6 @@
 package org.lessons.java.relation.spring_la_mia_pizzeria_relation.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,12 +21,12 @@ public class Offerta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull (message = "La data di inizio non può essere vuota")
+    @NotNull (message = "La data di inizio non può essere vuota!")
     private LocalDate dataInizio;
 
     private LocalDate dataFine;
     
-    @NotNull
+    @NotBlank (message = "Il titolo deve essere valido!")
     private String titolo;
 
     @ManyToOne

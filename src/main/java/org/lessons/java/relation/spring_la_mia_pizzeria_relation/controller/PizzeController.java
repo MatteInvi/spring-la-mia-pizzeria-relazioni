@@ -1,16 +1,21 @@
 package org.lessons.java.relation.spring_la_mia_pizzeria_relation.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.model.Offerta;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.model.Pizza;
+import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.OfferteRepository;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 
@@ -25,6 +30,9 @@ public class PizzeController {
 
     @Autowired
     private PizzaRepository pizzeRepository;
+
+    @Autowired
+    private OfferteRepository offerteRepository;
 
     @GetMapping
     public String index(Model model, @RequestParam(required = false) String keyword) {
@@ -41,7 +49,12 @@ public class PizzeController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
-        model.addAttribute("pizza", pizzeRepository.findById(id).get());
+        Optional<Pizza> pizzaOptional = pizzeRepository.findById(id);
+        if (pizzaOptional.isEmpty()) {
+            model.addAttribute("errore", "Non ci sono pizze con id: " + id);
+            return "error/index";
+        }
+        model.addAttribute("pizza", pizzaOptional.get());
         return "pizze/show";
 
     }
@@ -64,9 +77,9 @@ public class PizzeController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model){
+    public String edit(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("pizza", pizzeRepository.findById(id).get());
-        return"pizze/edit";
+        return "pizze/edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -83,14 +96,25 @@ public class PizzeController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id){
+    public String delete(@PathVariable("id") Integer id) {
         pizzeRepository.deleteById(id);
         return "redirect:/pizze";
     }
 
-    @GetMapping("/offerte/create")
-    public String creaOfferte(Model model){
-        model.addAttribute("offerta", new Offerta());
+    @GetMapping("/{id}/offerta")
+    public String offerta(@PathVariable("id") Integer id, Model model) {
+        Optional<Pizza> pizzaOptional = pizzeRepository.findById(id);
+        if (pizzaOptional.isEmpty()) {
+            model.addAttribute("errore", "Non ci sono pizze con id: " + id);
+            return "error/index";
+        }
+
+        model.addAttribute("pizza", pizzaOptional.get());
+
+        Offerta offerta = new Offerta();
+        offerta.setPizza(pizzaOptional.get());
+        offerta.setDataInizio(LocalDate.now());
+        model.addAttribute("offerta", offerta);
         return "offerte/create";
     }
 }
