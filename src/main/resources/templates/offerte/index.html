@@ -10,13 +10,14 @@
     <section th:insert="fragments/navbar :: navbar"></section>
 
     <!-- Main page -->
-    <main class="container">
+    <main class="container mt-4">
 
 
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>id</th>
+                    <th>Id</th>
+                    <th>Id Pizza</th>
                     <th>Titolo</th>
                     <th>Data Inizio</th>
                     <th>Data Fine</th>
@@ -26,6 +27,7 @@
             <tbody>
                 <tr th:each="offerta : ${offerte}" th:object="${offerta}">
                     <td>[[*{id}]]</td>
+                    <td>[[*{pizza.id}]]</td>
                     <td>[[*{titolo}]]</td>
                     <td>[[*{dataInizio}]]</td>
                     <td>[[*{dataFine}]]</td>

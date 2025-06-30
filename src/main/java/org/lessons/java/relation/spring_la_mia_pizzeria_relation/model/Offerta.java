@@ -9,8 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "offerte")
@@ -24,6 +26,7 @@ public class Offerta {
     @NotNull (message = "La data di inizio non può essere vuota!")
     private LocalDate dataInizio;
 
+    @FutureOrPresent(message = "L'offerta non può essere già terminata!")
     private LocalDate dataFine;
     
     @NotBlank (message = "Il titolo deve essere valido!")
