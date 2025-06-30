@@ -11,6 +11,10 @@
 
     <!-- Main page -->
     <main class="container mt-4">
+        <form th:action="@{/offerte}" class="d-flex mt-2 mb-2" role="search">
+            <input class="form-control me-2" type="search" name="keyword" placeholder="Cerca offerta per nome" aria-label="Cerca" />
+            <button class="btn btn-success" type="submit">Cerca</button>
+        </form>
 
 
         <table class="table table-striped">
@@ -45,7 +49,8 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Conferma eliminazione offerta: 
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Conferma eliminazione
+                                            offerta:
                                             [[*{titolo}]]</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>

@@ -1,5 +1,7 @@
 package org.lessons.java.relation.spring_la_mia_pizzeria_relation.controller;
 
+import java.util.List;
+
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.model.Offerta;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.OfferteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -22,8 +25,15 @@ public class OffertaController {
     private OfferteRepository offerteRepository;
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("offerte", offerteRepository.findAll());
+    public String index(@RequestParam(required = false) String keyword, Model model) {
+        List<Offerta> offerte;
+        if (keyword != null && !keyword.isEmpty() ) {
+            offerte = offerteRepository.findByTitoloContainingIgnoreCase(keyword);
+        } else {
+
+        offerte = offerteRepository.findAll();
+        }
+        model.addAttribute("offerte", offerte);
         return "offerte/index";
     }
 
@@ -47,7 +57,8 @@ public class OffertaController {
     }
 
     @PostMapping("/{id}/edit")
-    public String update(@Valid @ModelAttribute("offerta") Offerta offertaForm, BindingResult bindingResult, Model model) {
+    public String update(@Valid @ModelAttribute("offerta") Offerta offertaForm, BindingResult bindingResult,
+            Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("offerta", offertaForm);
             return "offerte/create";
