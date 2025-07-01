@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="fragments/head :: head('Home')">
+<head th:replace="~{fragments/head :: head('Crea Offerta')}">
 
 <body>
-    <section th:insert="fragments/navbar :: navbar"></section>
+    <section th:insert="~{fragments/navbar :: navbar}"></section>
 
     <main class="container">
         <div class="col-12 mt-3 p-2 bg-warning-subtle">
