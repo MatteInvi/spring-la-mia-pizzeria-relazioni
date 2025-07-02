@@ -37,6 +37,15 @@
                     </ul>
 
                 </div>
+
+                <div id="ingredienti">
+                    <label for="ingredienti" class="d-block mb-2">Ingredienti: </label>
+                </div>
+                <div class="mb-3" th:each="ingrediente : ${ingredienti}">
+                    <input type="checkbox" class="form-check-input" id="'ingrediente-' + ${ingrediente.id}"
+                        th:field="${pizza.ingredienti}" th:value="${ingrediente.id}">
+                    <label class="form-check-label">[[${ingrediente.nome}]]</label>
+                </div>
                 <label for="url-foto" class="form-label">URL Foto:</label>
                 <input th:errorClass="is-invalid" th:field="*{urlFoto}" type="text" class="form-control" id="url-foto">
                 <div th:if="${#fields.hasErrors('urlFoto')}" class="invalid-feedback">

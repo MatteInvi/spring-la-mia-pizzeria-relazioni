@@ -7,22 +7,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-
 @Entity
-@Table(name="pizze")
+@Table(name = "pizze")
 public class Pizza {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
 
     @NotBlank(message = "Il nome non può essere vuoto")
     private String nome;
@@ -30,19 +31,28 @@ public class Pizza {
     @Lob
     @NotBlank(message = "La descrizione non può essere vuota")
     private String descrizione;
-    
+
     @Lob
     private String urlFoto;
-    
-    @NotNull (message="Il prezzo non può essere vuoto")
+
+    @NotNull(message = "Il prezzo non può essere vuoto")
     @Positive(message = "Il prezzo non può essere inferiore a 1")
     private BigDecimal prezzo;
 
-
-    @OneToMany(mappedBy ="pizza")
+    @OneToMany(mappedBy = "pizza")
     private List<Offerta> offerte;
 
+    @ManyToMany
+    @JoinTable(name = "ingrediente_pizza", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+    private List<Ingrediente> ingredienti;
 
+    public List<Ingrediente> getIngredienti() {
+        return this.ingredienti;
+    }
+
+    public void setIngredienti(List<Ingrediente> ingredienti) {
+        this.ingredienti = ingredienti;
+    }
 
     public List<Offerta> getOfferte() {
         return this.offerte;
@@ -51,7 +61,6 @@ public class Pizza {
     public void setOfferte(List<Offerta> offerte) {
         this.offerte = offerte;
     }
-
 
     public String getNome() {
         return this.nome;
@@ -62,7 +71,7 @@ public class Pizza {
     }
 
     public String getDescrizione() {
-        return  this.descrizione;
+        return this.descrizione;
     }
 
     public void setDescrizione(String descrizione) {
@@ -78,14 +87,13 @@ public class Pizza {
     }
 
     public BigDecimal getPrezzo() {
-       return this.prezzo;
+        return this.prezzo;
     }
 
     public void setPrezzo(BigDecimal prezzo) {
 
-        this.prezzo =  prezzo;
+        this.prezzo = prezzo;
     }
-
 
     public Integer getId() {
         return this.id;
@@ -94,6 +102,5 @@ public class Pizza {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
 }

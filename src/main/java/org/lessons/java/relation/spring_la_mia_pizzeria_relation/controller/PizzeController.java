@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.model.Offerta;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.model.Pizza;
+import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.IngredientiRepository;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.OfferteRepository;
 import org.lessons.java.relation.spring_la_mia_pizzeria_relation.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/pizze")
 public class PizzeController {
 
+    private final IngredientiRepository ingredientiRepository;
+
     @Autowired
     private PizzaRepository pizzeRepository;
 
     @Autowired
     private OfferteRepository offerteRepository;
+
+    PizzeController(IngredientiRepository ingredientiRepository) {
+        this.ingredientiRepository = ingredientiRepository;
+    }
 
     @GetMapping
     public String index(Model model, @RequestParam(required = false) String keyword) {
@@ -52,6 +59,7 @@ public class PizzeController {
             model.addAttribute("errore", "Non ci sono pizze con id: " + id);
             return "error/index";
         }
+        model.addAttribute("ingredienti", ingredientiRepository.findAll());
         model.addAttribute("pizza", pizzaOptional.get());
         return "pizze/show";
 
@@ -60,6 +68,7 @@ public class PizzeController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredienti", ingredientiRepository.findAll());
         return "pizze/create";
     }
 
@@ -67,6 +76,7 @@ public class PizzeController {
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredienti", ingredientiRepository.findAll());
             return "/pizze/create";
         }
 
@@ -76,6 +86,7 @@ public class PizzeController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("ingredienti", ingredientiRepository.findAll());
         model.addAttribute("pizza", pizzeRepository.findById(id).get());
         return "pizze/edit";
     }

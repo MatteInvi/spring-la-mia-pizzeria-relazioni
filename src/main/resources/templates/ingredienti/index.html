@@ -10,7 +10,8 @@
     <section th:insert="~{fragments/navbar :: navbar}"></section>
 
     <!-- Main page -->
-
+<main class="container">
+       <a th:href="@{ingredienti/create}" class="btn btn-primary  mt-2 mb-2">Aggiungi un nuovo ingrediente</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -51,7 +52,7 @@
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Chiudi</button>
 
-                                        <form th:action="@{ingrediente/{id}/delete(id=*{id})}" method="POST">
+                                        <form th:action="@{ingredienti/{id}/delete(id=*{id})}" method="POST">
                                             <button type="submit" class="btn btn-danger">Conferma</button>
                                         </form>
                                     </div>
