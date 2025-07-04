@@ -35,7 +35,7 @@
 
                     </div>
                     <label for="data-inizio" class="form-label">Data inizio:</label>
-                    <input type="date" class="form-control" id="data-inizio" th:field="*{dataInizio}"  th:errorClass="is-invalid">
+                    <input type="date" class="form-control" id="data-inizio" th:field="*{dataInizio}"  th:errorClass="is-invalid" autocomplete>
                     <div th:if="${#fields.hasErrors('dataInizio')}" class="invalid-feedback">
                         <ul>
 
